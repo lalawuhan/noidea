@@ -87,7 +87,6 @@ function TodosList({ items }) {
 }
 
 function TodoItem({ id, completed, text }) {
-  console.log("text", text);
   const dispatch = useContext(Context); // makes it easier to use context
   return (
     <div>
