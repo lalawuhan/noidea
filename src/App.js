@@ -1,13 +1,6 @@
-import React, {
-  useReducer,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import React, { useReducer, useContext, useEffect, useRef } from "react";
 import "./App.css";
-import useArticles from "./components/useArticles";
-
+import SearchForm from "./components/searchForm";
 function appReducer(state, action) {
   switch (action.type) {
     case "reset": {
@@ -69,14 +62,6 @@ function useEffectOnce(callback) {
 function App() {
   const [state, dispatch] = useReducer(appReducer, []); // easy updating of complex pieces of data
 
-  const [query, setQuery] = useState("productivity"); // fetch data on mount
-  const [{ data, isLoading, isError }, setUrl] = useArticles(
-    "https://hn.algolia.com/api/v1/search?query=productivity",
-    {
-      hits: [],
-    }
-  );
-
   useEffectOnce(() => {
     const rawData = localStorage.getItem("data");
     dispatch({ type: "reset", payload: JSON.parse(rawData) });
@@ -88,30 +73,7 @@ function App() {
   return (
     <Context.Provider value={dispatch}>
       <div>
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            setUrl(`http://hn.algolia.com/api/v1/search?query=${query}`);
-          }}
-        >
-          <input
-            type="text"
-            value={query}
-            onChange={(event) => setQuery(event.target.value)}
-          />
-          <button type="submit">Search</button>
-        </form>
-        <ul>
-          {data.hits.map((item) => (
-            <li key={item.objectID}>
-              <a href={item.url}>{item.title}</a>
-              <button onClick={() => dispatch({ type: "add", text: item.url })}>
-                {" "}
-                Add to List
-              </button>
-            </li>
-          ))}
-        </ul>
+        <SearchForm />
       </div>
       <h1>To do list</h1>
       <button onClick={() => dispatch({ type: "add" })}>Add to do</button>
