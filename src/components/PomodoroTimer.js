@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from "react";
 import useInterval from "./useInterval";
-import TimerControl from "./timerControls";
+import TimerControls from "./timerControls";
+import Timer from "./Timer";
+
 //TODO: set delay to a 1000, currently shorter for testing
 export default function PomodoroTimer() {
   const [delay, setDelay] = useState(5); //change this value : 1500 IS 25MIN
   let [session, setSession] = useState(25);
-  let [timer, setTimer] = useState(session * 60);
+  let [timer, setTimer] = useState(25 * 60);
   let [active, setActive] = useState(false);
   let [breakTime, setBreakTime] = useState(5 * 60); //5min is 300sec
   let [mode, setMode] = useState("session");
-
   useInterval(
     () => {
       setTimer(timer - 1);
@@ -32,60 +33,26 @@ export default function PomodoroTimer() {
     setActive(!active);
   }
 
-  // format a timer time in millisecods to a mm:ss format
-  const formatTime = (time) => {
-    let format = (val) => `0${Math.floor(val)}`.slice(-2);
-    let minutes = Math.floor(time / 60);
-    let seconds = time - minutes * 60;
-    return [minutes, seconds].map(format).join(":");
-  };
   const resetTimers = () => {
     console.log("resetting");
     setBreakTime(5 * 60);
     setTimer(25 * 60);
     setActive(false);
   };
-  const handleIncrease = () => {
-    setTimer(timer + 60);
-    setSession(timer / 60);
-  };
-  const handleDecrease = () => {
-    console.log("decrease", timer);
-    let x = timer;
-    if (x <= 60) {
-      return null;
-    } else {
-      setTimer(timer - 60);
-      setSession(timer / 60);
-    }
-  };
-  const handleBreakIncrease = () => {
-    console.log("break", breakTime);
-    setBreakTime(breakTime + 60);
-  };
-  const handleBreakDecrease = () => {
-    console.log("decrease", breakTime);
-    let x = breakTime;
-    if (x <= 60) {
-      return null;
-    } else {
-      setBreakTime(breakTime - 60);
-      console.log("handle break");
-    }
-  };
 
   return (
     <div>
       <div className="maintimer">
-        <h1> Timer: {formatTime(timer)}</h1>
-        <button onClick={handleIncrease}>Increase</button>
-        <button onClick={handleDecrease}>Decrease</button>
-        <TimerControl pause={handlePause} reset={resetTimers} active={active} />
+        <Timer type={"Session"} values={[timer, setTimer, setSession]} />
+
+        <TimerControls
+          pause={handlePause}
+          reset={resetTimers}
+          active={active}
+        />
       </div>
       <div>
-        <h1>Break: {formatTime(breakTime)}</h1>
-        <button onClick={handleBreakIncrease}>Increase</button>
-        <button onClick={handleBreakDecrease}>Decrease</button>
+        <Timer type={"Break"} values={[breakTime, setBreakTime]} />
       </div>
     </div>
   );

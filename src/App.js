@@ -82,9 +82,9 @@ function App() {
         <PomodoroTimer />
         {/* <SearchForm /> */}
       </div>
-      <h1>To do list</h1>
+      {/* <h1>To do list</h1>
       <button onClick={() => dispatch({ type: "add" })}>Add to do</button>
-      <TodosList items={state} />
+      <TodosList items={state} /> */}
     </Context.Provider>
   );
 }
