@@ -1,6 +1,12 @@
 import React, { useReducer, useContext, useEffect, useRef } from "react";
 import "./App.css";
 import SearchForm from "./components/searchForm";
+import PomodoroTimer from "./components/PomodoroTimer";
+//TODO: remove url dependency on useArticles
+//TODO: add todos completed, and maybe a number of how many todos there are to complete
+//TODO: would be nice to look intro retro css
+//TODO: pomodoro timer
+
 function appReducer(state, action) {
   switch (action.type) {
     case "reset": {
@@ -73,7 +79,8 @@ function App() {
   return (
     <Context.Provider value={dispatch}>
       <div>
-        <SearchForm />
+        <PomodoroTimer />
+        {/* <SearchForm /> */}
       </div>
       <h1>To do list</h1>
       <button onClick={() => dispatch({ type: "add" })}>Add to do</button>
