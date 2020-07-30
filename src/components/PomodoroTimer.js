@@ -23,7 +23,6 @@ export default function PomodoroTimer() {
 
   //any changes in main timer
   useEffect(() => {
-    console.log("es", timer);
     if (timer === 0 && mode === "session") {
       console.log("in break now");
       console.log("break will take :", breakTime);
@@ -65,20 +64,23 @@ export default function PomodoroTimer() {
   };
   const handleIncrease = () => {
     setTimer(timer + 60);
+    setSession(timer / 60);
   };
   const handleDecrease = () => {
+    console.log("decrease", timer);
     let x = timer;
-    if (x === 1) {
-      return x;
+    if (x <= 60) {
+      return null;
     } else {
-      setTimer(timer - 1);
+      setTimer(timer - 60);
+      setSession(timer / 60);
     }
   };
+
   return (
     <div>
       <div className="maintimer">
         <h1>Main Timer: {formatTime(timer)}</h1>
-        <h1>Session Timer: {formatTime(session)}</h1>
 
         <input type="number" defaultValue="25" onChange={handleMainTimer} />
         <button onClick={handlePause}>{active ? "Pause" : "Start"}</button>
