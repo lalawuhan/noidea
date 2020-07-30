@@ -76,6 +76,20 @@ export default function PomodoroTimer() {
       setSession(timer / 60);
     }
   };
+  const handleBreakIncrease = () => {
+    console.log("break", breakTime);
+    setBreakTime(breakTime + 60);
+  };
+  const handleBreakDecrease = () => {
+    console.log("decrease", breakTime);
+    let x = breakTime;
+    if (x <= 60) {
+      return null;
+    } else {
+      setBreakTime(breakTime - 60);
+      console.log("handle break");
+    }
+  };
 
   return (
     <div>
@@ -90,6 +104,8 @@ export default function PomodoroTimer() {
       <div>
         <h1>Break Timer: {formatTime(breakTime)}</h1>
         <input type="number" defaultValue="5" onChange={handleBreak} />
+        <button onClick={handleBreakIncrease}>Increase</button>
+        <button onClick={handleBreakDecrease}>Decrease</button>
       </div>
       <button onClick={resetTimers}>Reset</button>
     </div>
