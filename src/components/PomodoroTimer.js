@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import useInterval from "./useInterval";
-
+import TimerControl from "./timerControls";
 //TODO: set delay to a 1000, currently shorter for testing
 export default function PomodoroTimer() {
   const [delay, setDelay] = useState(5); //change this value : 1500 IS 25MIN
   let [session, setSession] = useState(25);
   let [timer, setTimer] = useState(session * 60);
-  let [active, setActive] = useState(true);
+  let [active, setActive] = useState(false);
   let [breakTime, setBreakTime] = useState(5 * 60); //5min is 300sec
   let [mode, setMode] = useState("session");
 
@@ -95,11 +95,11 @@ export default function PomodoroTimer() {
     <div>
       <div className="maintimer">
         <h1>Main Timer: {formatTime(timer)}</h1>
-
         <input type="number" defaultValue="25" onChange={handleMainTimer} />
-        <button onClick={handlePause}>{active ? "Pause" : "Start"}</button>
+
         <button onClick={handleIncrease}>Increase</button>
         <button onClick={handleDecrease}>Decrease</button>
+        <TimerControl pause={handlePause} reset={resetTimers} active={active} />
       </div>
       <div>
         <h1>Break Timer: {formatTime(breakTime)}</h1>
@@ -107,7 +107,6 @@ export default function PomodoroTimer() {
         <button onClick={handleBreakIncrease}>Increase</button>
         <button onClick={handleBreakDecrease}>Decrease</button>
       </div>
-      <button onClick={resetTimers}>Reset</button>
     </div>
   );
 }
