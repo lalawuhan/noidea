@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import useInterval from "./useInterval";
 import TimerControls from "./timerControls";
-import Timer from "./Timer";
+import Timer from "./timer";
 
 //TODO: set delay to a 1000, currently shorter for testing
 export default function PomodoroTimer() {
-  const [delay, setDelay] = useState(5); //change this value : 1500 IS 25MIN
+  const [delay, setDelay] = useState(1000);
   let [session, setSession] = useState(25);
   let [timer, setTimer] = useState(25 * 60);
   let [active, setActive] = useState(false);
